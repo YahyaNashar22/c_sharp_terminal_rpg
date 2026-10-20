@@ -2,7 +2,6 @@
 {
     public static void Main(string[] args)
     {
-        Game game = new();
-        game.Run();
+        Console.WriteLine("Fresh Start");
     }
 }
