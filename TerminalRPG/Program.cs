@@ -1,7 +1,24 @@
-﻿class Program
+﻿using TerminalRPG.Core;
+using TerminalRPG.Settings;
+
+namespace TerminalRPG
 {
-    public static void Main(string[] args)
+    class Program
     {
-        Console.WriteLine("Fresh Start");
+        private static ThemeSettings _settings = new ThemeSettings(ConsoleColor.DarkBlue, ConsoleColor.Yellow);
+        public static void Main(string[] args)
+        {
+            try
+            {
+
+                Game game = new Game(settings: _settings);
+            
+                game.Run();
+            }
+            finally
+            {
+                _settings.Cleanup();
+            }
+        }
     }
 }
