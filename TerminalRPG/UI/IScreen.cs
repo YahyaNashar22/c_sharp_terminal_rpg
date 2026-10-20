@@ -1,0 +1,4 @@
+interface IScreen
+{
+    void Draw();
+}

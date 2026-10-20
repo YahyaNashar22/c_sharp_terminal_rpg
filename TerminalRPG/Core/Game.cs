@@ -1,9 +1,11 @@
 using TerminalRPG.Settings;
+using TerminalRPG.UI;
 
 namespace TerminalRPG.Core
 {
     internal class Game
     {
+        IScreen mainMenu = new MainMenuScreen();
         public Game(in ThemeSettings settings)
         {
             Console.BackgroundColor = settings.BackgroundColor;
@@ -15,13 +17,7 @@ namespace TerminalRPG.Core
 
         public void Run()
         {
-            Console.WriteLine("Game is Running . . .");
-
-            Console.WriteLine("Enter Your Name:");
-
-            string? name = Console.ReadLine();
-
-            Console.WriteLine($"Welcome! {name} Ready to explore this universe?");
+            mainMenu.Draw();
         }
     }
 }
