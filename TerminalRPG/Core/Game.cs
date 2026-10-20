@@ -1,23 +1,19 @@
-using TerminalRPG.Settings;
 using TerminalRPG.UI;
+using TerminalRPG.Utils;
 
 namespace TerminalRPG.Core
 {
     internal class Game
     {
-        IScreen mainMenu = new MainMenuScreen();
-        public Game(in ThemeSettings settings)
+        IScreen activeScreen = new MainMenuScreen();
+        public Game()
         {
-            Console.BackgroundColor = settings.BackgroundColor;
-            Console.ForegroundColor = settings.ForegroundColor;
-            Console.Clear();
-
-            Console.WriteLine("Game Initialized");
+            ScreenUtils.InitialSettings();
         }
 
         public void Run()
         {
-            mainMenu.Draw();
+            activeScreen.Draw();
         }
     }
 }

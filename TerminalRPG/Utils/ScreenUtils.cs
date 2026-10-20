@@ -32,5 +32,23 @@ namespace TerminalRPG.Utils
             Console.SetCursorPosition(startX, startY + 2);
             Console.WriteLine(new string(pattern, boxWidth));
         }
+
+        public static void ColorScreen(ConsoleColor bg, ConsoleColor fg)
+        {
+            Console.BackgroundColor = bg;
+            Console.ForegroundColor = fg;
+            Console.Clear();
+        }
+
+        public static void Cleanup()
+        {
+            Console.ResetColor();
+        }
+
+        public static void InitialSettings()
+        {
+            Console.Clear();
+            Console.CursorVisible = false;
+        }
     }
 }
