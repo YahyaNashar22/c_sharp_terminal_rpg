@@ -43,6 +43,8 @@ namespace TerminalRPG.Utils
         public static void Cleanup()
         {
             Console.ResetColor();
+            Console.Clear();
+            Console.CursorVisible = true;
         }
 
         public static void InitialSettings()

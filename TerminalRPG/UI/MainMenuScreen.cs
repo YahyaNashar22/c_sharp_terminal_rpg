@@ -1,4 +1,5 @@
 using TerminalRPG.States;
+using TerminalRPG.Utils;
 
 namespace TerminalRPG.UI
 {
@@ -8,6 +9,7 @@ namespace TerminalRPG.UI
         private readonly string[] _options = ["Start Game", "Options", "Exit"];
         public void Render()
         {
+            ScreenUtils.ColorScreen(ConsoleColor.Gray, ConsoleColor.Green);
             ShowOptions();
         }
 
@@ -29,9 +31,6 @@ namespace TerminalRPG.UI
             int startX = (Console.WindowWidth - text.Length) / 2;
             int startY = Console.WindowHeight / 2;
             Console.SetCursorPosition(startX, startY);
-            // Ensure no negative numbers
-            startX = Math.Max(0, startX);
-            startY = Math.Max(0, startY);
 
             Console.WriteLine(text);
             for (int i = 0; i < _options.Length; i++)

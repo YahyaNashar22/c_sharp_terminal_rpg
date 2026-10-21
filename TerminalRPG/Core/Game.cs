@@ -7,26 +7,43 @@ namespace TerminalRPG.Core
     internal class Game
     {
         private IScreenState _activeState = new MainMenuScreen();
+        private bool _isRunning = true;
+        private static readonly object _shutdownLock = new();
+        private static bool _hasShutDown;
         public Game()
         {
+            Console.CancelKeyPress += (_, e) =>
+            {
+                ShutDown();
+                e.Cancel = false; // Allow the process to terminate afterward.
+            };
+
+            AppDomain.CurrentDomain.ProcessExit += (_, _) => ShutDown();
             ScreenUtils.InitialSettings();
         }
 
         public void Run()
         {
-            Welcome();
-            while (true)
+            try
             {
-                Console.Clear();
-                _activeState.Render();
+                Welcome();
+                while (_isRunning)
+                {
+                    Console.Clear();
+                    _activeState.Render();
 
-                // Capture input without displaying typed characters
-                ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
+                    // Capture input without displaying typed characters
+                    ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
 
-                // Pass the current state to the update method of the _activeScreen
-                IScreenState nextState = _activeState;
-                _activeState.Update(keyInfo.Key, ref nextState);
-                _activeState = nextState;
+                    // Pass the current state to the update method of the _activeScreen
+                    IScreenState nextState = _activeState;
+                    _activeState.Update(keyInfo.Key, ref nextState);
+                    _activeState = nextState;
+                }
+            }
+            finally
+            {
+                ShutDown();
             }
         }
 
@@ -35,6 +52,20 @@ namespace TerminalRPG.Core
             ScreenUtils.DrawCenteredBanner("Welcome To Terminal RPG!", '#');
             Thread.Sleep(2000);
             Console.Clear();
+        }
+
+        private static void ShutDown()
+        {
+            lock (_shutdownLock)
+            {
+                if (_hasShutDown) return;
+
+                _hasShutDown = true;
+                ScreenUtils.Cleanup();
+                ScreenUtils.DrawCenteredBanner("See you later!", '-');
+                Thread.Sleep(2000);
+                Console.Clear();
+            }
         }
     }
 }
