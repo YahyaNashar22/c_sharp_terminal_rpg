@@ -1,3 +1,4 @@
+using TerminalRPG.States;
 using TerminalRPG.UI;
 using TerminalRPG.Utils;
 
@@ -5,7 +6,7 @@ namespace TerminalRPG.Core
 {
     internal class Game
     {
-        IScreen activeScreen = new MainMenuScreen();
+        IScreenState activeScreen = new MainMenuScreen();
         public Game()
         {
             ScreenUtils.InitialSettings();
@@ -13,7 +14,7 @@ namespace TerminalRPG.Core
 
         public void Run()
         {
-            activeScreen.Draw();
+            activeScreen.Render();
         }
     }
 }

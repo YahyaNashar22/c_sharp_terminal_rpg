@@ -1,12 +1,18 @@
+using TerminalRPG.States;
 using TerminalRPG.Utils;
 
 namespace TerminalRPG.UI
 {
-    internal class MainMenuScreen : IScreen
+    internal class MainMenuScreen : IScreenState
     {
-        public void Draw()
+        public void Render()
         {
             Welcome();
+
+        }
+
+        public void Update(ConsoleKey key, ref IScreenState nextState)
+        {
 
         }
 

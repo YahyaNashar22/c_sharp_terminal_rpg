@@ -1,4 +1,0 @@
-interface IScreen
-{
-    void Draw();
-}
