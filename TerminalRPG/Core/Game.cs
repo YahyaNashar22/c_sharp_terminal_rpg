@@ -6,7 +6,7 @@ namespace TerminalRPG.Core
 {
     internal class Game
     {
-        IScreenState activeScreen = new MainMenuScreen();
+        private IScreenState _activeState = new MainMenuScreen();
         public Game()
         {
             ScreenUtils.InitialSettings();
@@ -14,7 +14,27 @@ namespace TerminalRPG.Core
 
         public void Run()
         {
-            activeScreen.Render();
+            Welcome();
+            while (true)
+            {
+                Console.Clear();
+                _activeState.Render();
+
+                // Capture input without displaying typed characters
+                ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
+
+                // Pass the current state to the update method of the _activeScreen
+                IScreenState nextState = _activeState;
+                _activeState.Update(keyInfo.Key, ref nextState);
+                _activeState = nextState;
+            }
+        }
+
+        private static void Welcome()
+        {
+            ScreenUtils.DrawCenteredBanner("Welcome To Terminal RPG!", '#');
+            Thread.Sleep(2000);
+            Console.Clear();
         }
     }
 }

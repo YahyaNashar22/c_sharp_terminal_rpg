@@ -1,24 +1,38 @@
 using TerminalRPG.States;
-using TerminalRPG.Utils;
 
 namespace TerminalRPG.UI
 {
     internal class MainMenuScreen : IScreenState
     {
+        private int _selectedOption = 0;
+        private readonly string[] _options = ["Start Game", "Options", "Exit"];
         public void Render()
         {
-            Welcome();
-
+            ShowOptions();
         }
 
         public void Update(ConsoleKey key, ref IScreenState nextState)
         {
-
+            if (key == ConsoleKey.UpArrow)
+            {
+                _selectedOption = (_selectedOption == 0) ? 0 : _selectedOption - 1;
+            }
+            else if (key == ConsoleKey.DownArrow)
+            {
+                _selectedOption = (_selectedOption == _options.Length - 1) ? _options.Length - 1 : _selectedOption + 1;
+            }
         }
 
-        private void Welcome()
+        private void ShowOptions()
         {
-            ScreenUtils.DrawCenteredBanner("Welcome To Terminal RPG!", '#');
+            Console.WriteLine("=== Terminal RPG ===");
+            for (int i = 0; i < _options.Length; i++)
+            {
+                if (i == _selectedOption)
+                    Console.WriteLine($"> {_options[i]} <");
+                else
+                    Console.WriteLine(_options[i]);
+            }
         }
     }
 }

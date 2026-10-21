@@ -7,20 +7,8 @@ namespace TerminalRPG
     {
         public static void Main(string[] args)
         {
-            while (true)
-            {
-                try
-                {
-                    Game game = new Game();
-                    game.Run();
-                    
-                    Console.ReadLine();
-                }
-                finally
-                {
-                    ScreenUtils.Cleanup();
-                }
-            }
+            Game game = new Game();
+            game.Run();
         }
     }
 }
