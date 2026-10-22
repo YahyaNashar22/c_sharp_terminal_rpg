@@ -33,12 +33,24 @@ namespace TerminalRPG.Core
                     _activeState.Render();
 
                     // Capture input without displaying typed characters
-                    ConsoleKeyInfo keyInfo = Console.ReadKey(intercept: true);
+                    ConsoleKeyInfo input = Console.ReadKey(intercept: true);
 
-                    // Pass the current state to the update method of the _activeScreen
-                    IScreenState nextState = _activeState;
-                    _activeState.Update(keyInfo.Key, ref nextState);
-                    _activeState = nextState;
+                    ScreenTransition transition = _activeState.Update(input.Key);
+
+                    switch (transition.Type)
+                    {
+                        case TransitionType.None:
+                            break;
+                        case TransitionType.Navigate:
+                            if (transition.NextScreen is not null)
+                            {
+                                _activeState = transition.NextScreen;
+                            }
+                            break;
+                        case TransitionType.Exit:
+                            _isRunning = false;
+                            break;
+                    }
                 }
             }
             finally

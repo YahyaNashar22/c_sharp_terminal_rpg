@@ -6,12 +6,13 @@ namespace TerminalRPG.UI
     {
         public void Render()
         {
-            
+            Console.Clear();
+            Console.WriteLine("Create Your Character");
         }
 
-        public void Update(ConsoleKey key, ref IScreenState nextState)
+        public ScreenTransition Update(ConsoleKey key)
         {
-
+            return new ScreenTransition(TransitionType.None);
         }
     }
 }

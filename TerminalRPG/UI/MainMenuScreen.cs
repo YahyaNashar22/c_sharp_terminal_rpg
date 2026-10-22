@@ -7,22 +7,30 @@ namespace TerminalRPG.UI
     {
         private int _selectedOption = 0;
         private readonly string[] _options = ["Start Game", "Options", "Exit"];
+
         public void Render()
         {
             ScreenUtils.ColorScreen(ConsoleColor.Gray, ConsoleColor.Green);
             ShowOptions();
         }
 
-        public void Update(ConsoleKey key, ref IScreenState nextState)
+        public ScreenTransition Update(ConsoleKey key)
         {
-            if (key == ConsoleKey.UpArrow)
+            switch (key)
             {
-                _selectedOption = (_selectedOption == 0) ? 0 : _selectedOption - 1;
+                case ConsoleKey.UpArrow:
+                    _selectedOption = (_selectedOption == 0) ? 0 : _selectedOption - 1;
+                    break;
+                case ConsoleKey.DownArrow:
+                    _selectedOption = (_selectedOption == _options.Length - 1) ? _options.Length - 1 : _selectedOption + 1;
+                    break;
+                case ConsoleKey.Enter:
+                    return HandleSelection();
+                default:
+                    return new ScreenTransition(TransitionType.None);
             }
-            else if (key == ConsoleKey.DownArrow)
-            {
-                _selectedOption = (_selectedOption == _options.Length - 1) ? _options.Length - 1 : _selectedOption + 1;
-            }
+
+            return new ScreenTransition(TransitionType.None);
         }
 
         private void ShowOptions()
@@ -43,6 +51,17 @@ namespace TerminalRPG.UI
                     ScreenUtils.CenterText(text, i + 1);
                 }
             }
+        }
+
+        private ScreenTransition HandleSelection()
+        {
+            return _selectedOption switch
+            {
+                0 => new ScreenTransition(TransitionType.Navigate, new CharacterCreationScreen()),
+                1 => new ScreenTransition(TransitionType.Navigate, new OptionsScreen()),
+                2 => new ScreenTransition(TransitionType.Exit),
+                _ => new ScreenTransition(TransitionType.None)
+            };
         }
     }
 }
