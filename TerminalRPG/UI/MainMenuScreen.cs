@@ -28,26 +28,19 @@ namespace TerminalRPG.UI
         private void ShowOptions()
         {
             string text = "=== Terminal RPG ===";
-            int startX = (Console.WindowWidth - text.Length) / 2;
-            int startY = Console.WindowHeight / 2;
-            Console.SetCursorPosition(startX, startY);
+            ScreenUtils.CenterText(text, 0);
 
-            Console.WriteLine(text);
             for (int i = 0; i < _options.Length; i++)
             {
                 if (i == _selectedOption)
                 {
                     text = $"> {_options[i]} <";
-                    startX = (Console.WindowWidth - text.Length) / 2;
-                    Console.SetCursorPosition(startX, startY + i + 1);
-                    Console.WriteLine(text);
+                    ScreenUtils.CenterText(text, i + 1);
                 }
                 else
                 {
                     text = _options[i];
-                    startX = (Console.WindowWidth - text.Length) / 2;
-                    Console.SetCursorPosition(startX, startY + i + 1);
-                    Console.WriteLine(text);
+                    ScreenUtils.CenterText(text, i + 1);
                 }
             }
         }

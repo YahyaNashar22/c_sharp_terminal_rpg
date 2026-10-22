@@ -2,6 +2,11 @@ namespace TerminalRPG.Utils
 {
     static internal class ScreenUtils
     {
+        public static void InitialSettings()
+        {
+            Console.Clear();
+            Console.CursorVisible = false;
+        }
         public static void DrawCenteredBanner(string text, char pattern)
         {
             // 1. Core text and box calculations
@@ -47,10 +52,14 @@ namespace TerminalRPG.Utils
             Console.CursorVisible = true;
         }
 
-        public static void InitialSettings()
+        public static void CenterText(string text, int index)
         {
-            Console.Clear();
-            Console.CursorVisible = false;
+            int startX = (Console.WindowWidth - text.Length) / 2;
+            int startY = Console.WindowHeight / 2;
+            Console.SetCursorPosition(startX, startY + index);
+
+            Console.WriteLine(text);
         }
+
     }
 }
